@@ -1,0 +1,12 @@
+node_modules
+dist
+# Keep environment variables out of version control
+.env
+
+/src/generated/prisma
+
+# Fichiers d'aide pour les assistants IA
+.agents/
+.claude/
+.windsurf/
+skills-lock.json

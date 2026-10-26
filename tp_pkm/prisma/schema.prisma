@@ -1,0 +1,46 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Trainer {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique
+  level      Int       @default(1)
+  experience Int       @default(0)
+  pokemons   Pokemon[]
+}
+
+model Pokemon {
+  id           Int             @id @default(autoincrement())
+  name         String
+  lifePoint    Int
+  maxLifePoint Int
+  trainerId    Int?
+  trainer      Trainer?        @relation(fields: [trainerId], references: [id], onDelete: SetNull)
+  attacks      PokemonAttack[]
+}
+
+model Attack {
+  id         Int             @id @default(autoincrement())
+  name       String          @unique
+  damage     Int
+  usageLimit Int
+  pokemons   PokemonAttack[]
+}
+
+// Une attaque apprise par un Pokémon, avec son propre compteur d'usage
+model PokemonAttack {
+  pokemonId  Int
+  attackId   Int
+  usageCount Int     @default(0)
+  pokemon    Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+  attack     Attack  @relation(fields: [attackId], references: [id], onDelete: Cascade)
+
+  @@id([pokemonId, attackId])
+}
