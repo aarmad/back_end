@@ -1,0 +1,33 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "title": "Wishlist d'un utilisateur",
+    "required": ["userId", "games", "createdAt", "updatedAt"],
+    "properties": {
+      "userId": {
+        "bsonType": "string",
+        "description": "Identifiant de l'utilisateur (users.id côté MySQL), unique : une wishlist par utilisateur"
+      },
+      "games": {
+        "bsonType": "array",
+        "description": "Jeux souhaités, du plus ancien au plus récent",
+        "items": {
+          "bsonType": "object",
+          "required": ["gameId", "addedAt"],
+          "properties": {
+            "gameId": { "bsonType": "string", "description": "games.id côté MySQL" },
+            "addedAt": { "bsonType": "date" },
+            "note": { "bsonType": "string", "maxLength": 1000, "description": "Note personnelle (facultative)" },
+            "details": {
+              "bsonType": "object",
+              "description": "Champs personnels libres, sans structure fixe (priorité, tags, prix visé...)"
+            },
+            "noteUpdatedAt": { "bsonType": "date" }
+          }
+        }
+      },
+      "createdAt": { "bsonType": "date" },
+      "updatedAt": { "bsonType": "date" }
+    }
+  }
+}
